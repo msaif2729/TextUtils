@@ -2,7 +2,6 @@
 import './App.css';
 import Navbar from './components/Navbar';
 
-let name = "Mohammed Saif Ansari";
 
 function App() {
   return (
