@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -125,6 +125,30 @@ export default function TextForm(props) {
         return wc;
     }
 
+    const [ut,setUtterence] = useState(null);
+
+    const handleSpeak = ()=>{
+        if(text.length>0)
+            {
+                const sync = window.speechSynthesis;
+                sync.speak(ut)
+            }
+    }
+
+    useEffect(() => {
+        const synth = window.speechSynthesis;
+        const u = new SpeechSynthesisUtterance(text);  
+        
+        setUtterence(u);
+
+        return () => {
+          synth.cancel();
+        };
+      }, [text]);
+
+
+      
+
   return (
     <>
      <div className='container'>
@@ -139,6 +163,7 @@ export default function TextForm(props) {
         <button className="btn btn-primary mx-1 my-1" onClick={handleReverse}>Reversal Text</button>
         <button className="btn btn-primary mx-1 my-1" onClick={handleToggle}>Case Toggle</button>
         <button className="btn btn-primary mx-1 my-1" onClick={handleCopy}>Copy Text</button>
+        <button className="btn btn-primary mx-1 my-1" onClick={handleSpeak}>Text to Speech</button>
         <button className="btn btn-primary mx-1 my-1" onClick={handleClear}>Clear Text</button>
 
         
@@ -147,7 +172,7 @@ export default function TextForm(props) {
     </div>
     <div className="container">
         <h3>Your Text Summary</h3>
-        <p><b>{check(text.split(" "))}</b> words and <b>{text.length}</b> characters</p>
+        <p><b>{check(text.split(/\s+/))}</b> words and <b>{text.length}</b> characters</p>
         <h3>Preview</h3>
         <p>{text.length>0?text:"Enter the text in the textbow to preview it"}</p>
     </div>
