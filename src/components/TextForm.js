@@ -4,9 +4,8 @@ import PropTypes from 'prop-types'
 
 export default function TextForm(props) {
 
-
     const [text,setText] =  useState("")
-
+    const [summary,setSummary] = useState('')
 
     const handleUpClick = () =>{
         if(text.length>0)
@@ -135,6 +134,47 @@ export default function TextForm(props) {
             }
     }
 
+    const handleSummarize = async ()=>{
+        if(text.length>0)
+        {
+            const apiURL = process.env.REACT_APP_API_URL;
+            const apiKEY = process.env.REACT_APP_API_KEY;
+
+            const headers = {
+                'Content-Type':'application/json',
+                'Authorization':`Bearer ${apiKEY}`
+            }
+
+            const data = {
+                model: "gpt-4o-mini",
+                messages: [
+                {
+                    role: "system",
+                    content: "You are an assistant and you have to summarize the text provided by the user",
+                },
+                {
+                    role: "user",
+                    content: text,
+                },
+                ],
+                temperature: 0.7,
+            };
+
+            fetch(apiURL,{
+                method:'POST',
+                headers:headers,
+                body:JSON.stringify(data),
+            })
+                .then((res)=>res.json())
+                .then((result)=>{
+                    setText(result.choices[0].message.content)
+                    })
+                    .catch((error) => {
+                    console.error("Error:", error);
+                })
+        }
+    }
+
     useEffect(() => {
         const synth = window.speechSynthesis;
         const u = new SpeechSynthesisUtterance(text);  
@@ -144,10 +184,7 @@ export default function TextForm(props) {
         return () => {
           synth.cancel();
         };
-      }, [text]);
-
-
-      
+      }, [text,summary]);
 
   return (
     <>
@@ -164,11 +201,8 @@ export default function TextForm(props) {
         <button className="btn btn-primary mx-1 my-1" onClick={handleToggle}>Case Toggle</button>
         <button className="btn btn-primary mx-1 my-1" onClick={handleCopy}>Copy Text</button>
         <button className="btn btn-primary mx-1 my-1" onClick={handleSpeak}>Text to Speech</button>
+        <button className="btn btn-primary mx-1 my-1" onClick={handleSummarize}>Text Summary</button>
         <button className="btn btn-primary mx-1 my-1" onClick={handleClear}>Clear Text</button>
-
-        
-        
-
     </div>
     <div className="container">
         <h3>Your Text Summary</h3>

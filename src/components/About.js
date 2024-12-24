@@ -103,10 +103,18 @@ export default function About(props) {
                             </div>
                         </div>
                     </div>
+                    <div className="col justify-center">
+                        <div className="card" style={props.mystyle}>
+                            <div className="card-body">
+                                <h5 className="card-title">Text Summarization</h5>
+                                <p className="card-text">Provides a quick way to summarize the content into key points for quick understanding and saving the time.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <p className='text-center'>©Copy Right 2024, Designed By : Mohammed Saif Ansari </p>
+        <p className='text-center'>©Copy Right 2024, Designed and Developed By : Mohammed Saif Ansari </p>
     </div>
   )
 }
