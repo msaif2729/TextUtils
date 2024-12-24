@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 export default function TextForm(props) {
 
     const [text,setText] =  useState("")
-    const [summary,setSummary] = useState('')
 
     const handleUpClick = () =>{
         if(text.length>0)
@@ -184,7 +183,7 @@ export default function TextForm(props) {
         return () => {
           synth.cancel();
         };
-      }, [text,summary]);
+      }, [text]);
 
   return (
     <>
