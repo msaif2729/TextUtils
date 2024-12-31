@@ -139,6 +139,8 @@ export default function TextForm(props) {
             const apiURL = process.env.REACT_APP_API_URL;
             const apiKEY = process.env.REACT_APP_API_KEY;
 
+            console.log("API URL :"+apiKEY+"\nAPI KEY : "+apiKEY);
+
             const headers = {
                 'Content-Type':'application/json',
                 'Authorization':`Bearer ${apiKEY}`
